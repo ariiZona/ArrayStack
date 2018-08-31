@@ -2,20 +2,26 @@
 
 #include <iostream>
 
-#define SIZE 10
-
+template <typename T>
 class ArrayStack {
-private:	
+private:
+	unsigned int length;
 	unsigned int SP;  // Stack Pointer
-	int SS[SIZE];     // Stack Segment
+	T* SS;			  // Stack Segment
 
 public:
-	ArrayStack() {
+	ArrayStack(unsigned int size) {
+		length = size;
+		SS = new T[size];
 		SP = 0;
 	}
 
-	bool push(int data) {
-		if (SP < SIZE) {
+	~ArrayStack() {
+		delete[] SS; // Important d'ajouter "[]" pour les arrays
+	}
+
+	bool push(T data) {
+		if (SP < length) {
 			SS[SP++] = data;
 			return true;
 		}
@@ -28,7 +34,7 @@ public:
 			SP--;
 	}
 
-	int top() {
+	T top() {
 		if (SP)  // 0 = faux, plus grand = vrai
 			return SS[SP - 1];
 		else
